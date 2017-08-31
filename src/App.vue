@@ -1,6 +1,8 @@
 <template>
   <div id="app">
-    <img src="./assets/images/logo.png">
+    <figure>
+      <img src="./assets/images/logo.png" alt="Gamma" title="Gamma" class="img-responsive">
+    </figure>
     <router-view></router-view>
   </div>
 </template>
