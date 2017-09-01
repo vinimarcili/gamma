@@ -4,7 +4,7 @@
       <div class="row">
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
           <p class="instructions">
-            Mussum Ipsum, cacilds vidis litro abertis. In elementis mé pra quem é amistosis quis leo. Tá deprimidis, eu conheço uma cachacis que pode alegrar sua vidis. Copo furadis é disculpa de bebadis, arcu quam euismod magna. Posuere libero varius. Nullam a nisl ut ante blandit hendrerit. Aenean sit amet nisi.
+            Gamma is a daily calorie expenditure calculator based on the Harris and Benedict formula considering moderate daily activity
           </p>
         </div>
       </div>
@@ -17,13 +17,13 @@
       </div>
       <div class="row">
         <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 col-lg-offset-3">
-          <input type="radio" name="gender" id="male">
+          <input type="radio" name="gender" id="male" value="male" v-model="gender" checked>
           <label for="male">
             <i class="fa fa-male" aria-hidden="true"></i>
           </label>
         </div>
         <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3">
-          <input type="radio" name="gender" id="female">
+          <input type="radio" name="gender" id="female" value="female" v-model="gender">
           <label for="female">
             <i class="fa fa-female" aria-hidden="true"></i>
           </label>
@@ -34,35 +34,35 @@
           <label for="age" class="hidden">
             Age
           </label>
-          <input type="text" name="age" id="age" placeholder="Age">
+          <input type="text" name="age" id="age" placeholder="Age" v-model="age">
         </div>
         <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3">
           <label for="time" class="hidden">
             Training time (minutes)
           </label>
-          <input type="text" name="time" id="time" placeholder="Training time (minutes)">
+          <input type="text" name="time" id="time" placeholder="Training time (minutes)" v-model="time">
         </div>
         <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3">
           <label for="weight" class="hidden">
             Weight (kg)
           </label>
-          <input type="text" name="weight" id="weight" placeholder="Weight (kg)">
+          <input type="text" name="weight" id="weight" placeholder="Weight (kg)" v-model="weight">
         </div>
         <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3">
           <label for="height" class="hidden">
             Height (cm)
           </label>
-          <input type="text" name="height" id="height" placeholder="Height (cm)">
+          <input type="text" name="height" id="height" placeholder="Height (cm)" v-model="height">
         </div>
       </div>
       <div class="row">
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-          <button type="button">Calculate <i class="fa fa-check" aria-hidden="true"></i></button>
+          <button type="button" v-on:click="calculate">Calculate <i class="fa fa-check" aria-hidden="true"></i></button>
         </div>
       </div>
       <div class="row">
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-          <p class="result">Result: $var Kcal</p>
+          <p class="result">Result: {{ result }} Kcal</p>
         </div>
       </div>
     </div>
@@ -74,7 +74,23 @@ export default {
   name: 'calculator',
   data () {
     return {
-      msg: ''
+      result: 0,
+      gender: 'male',
+      age: '',
+      time: '',
+      weight: '',
+      height: ''
+    }
+  },
+  methods: {
+    calculate: function () {
+      if (this.gender === 'male') {
+        this.result = (66.47 + 13.75 * this.weight + 5.0 * this.height + 6.76 * this.age) + (0.086 * this.time * this.weight)
+      } else {
+        this.result = (655.1 + 9.56 * this.weight + 1.85 * this.height + 4.68 * this.age) + (0.086 * this.time * this.weight)
+      }
+
+      this.result = this.result.toFixed(2)
     }
   }
 }
@@ -104,6 +120,8 @@ export default {
         background: $green-light;
         border-radius: 10px;
         padding: 15px;
+        border: 3px solid $green;
+        font-weight: 600;
       }
     }
     input {
@@ -175,6 +193,12 @@ export default {
       &:hover{
         background: #fff;
         color: darken($green, 20%);
+      }
+      &:focus {
+        outline: none;
+      }
+      &:active{
+        font-size: 15px;
       }
     }
   }
